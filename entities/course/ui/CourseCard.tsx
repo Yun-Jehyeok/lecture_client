@@ -1,12 +1,17 @@
 "use client";
 
+import { CourseWithRelations } from "@/shared/types";
 import { Play } from "lucide-react";
 import Link from "next/link";
 
-export default function CourseCard() {
+export default function CourseCard({
+    course,
+}: {
+    course: CourseWithRelations;
+}) {
     return (
         <Link
-            href="/course/1"
+            href={`/course/${course.id}`}
             className="bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 hover:scale-[1.02] group"
         >
             <div className="h-35">
@@ -25,10 +30,10 @@ export default function CourseCard() {
 
             <div className="p-4">
                 <div className="text-sm leading-5 font-semibold mb-6">
-                    Node.js & Express 백엔드 완전정복
+                    {course.title}
                 </div>
                 <div className="flex flex-col gap-2.5 text-xs leading-4 font-normal text-secondary">
-                    <div>코딩하는 대머리</div>
+                    <div>{course.instructorName}</div>
                     <div className="flex items-center">
                         <span className="text-sm text-white leading-5 flex items-center gap-1">
                             <svg
@@ -47,9 +52,9 @@ export default function CourseCard() {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                            4.8
+                            {course.rating}
                         </span>
-                        &nbsp; (1,987명)
+                        &nbsp; ({course.totalStudents}명)
                     </div>
                     <div className="flex items-center gap-1">
                         <svg
@@ -85,7 +90,7 @@ export default function CourseCard() {
                                 </clipPath>
                             </defs>
                         </svg>
-                        28 시간
+                        {course.durationHours} 시간
                         <svg
                             width="5"
                             height="18"
@@ -146,11 +151,11 @@ export default function CourseCard() {
                                 </clipPath>
                             </defs>
                         </svg>
-                        1,987명
+                        {course.totalStudents}명
                     </div>
 
                     <div className="text-primary font-bold text-base leading-6">
-                        95,000원
+                        {course.price}원
                     </div>
                 </div>
             </div>

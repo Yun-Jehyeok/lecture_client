@@ -6,6 +6,7 @@ export default function LoginModal({
     const onSocialLogin = async (provider: string) => {
         // Implement social login logic here
         console.log(`Logging in with ${provider}`);
+        window.location.href = `http://localhost:8080/api/auth/${provider}`;
     };
 
     return (

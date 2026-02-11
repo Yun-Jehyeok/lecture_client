@@ -1,5 +1,6 @@
 "use client";
 
+import { Course, CourseWithRelations } from "@/shared/types";
 import {
     ArrowLeft,
     Award,
@@ -14,38 +15,12 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface CourseInfoProps {
-    category?: string;
-    isBestSeller?: boolean;
-    title: string;
-    description: string;
-    rating: number;
-    ratingCount: number;
-    studentCount: number;
-    duration: string;
-    instructor: string;
-    thumbnailUrl: string;
-    learningPoints: string[];
-    curriculum: {
-        sectionTitle: string;
-        lectures: { title: string; duration: string }[];
-    }[];
-}
-
 export default function CourseInfo({
-    category = "프론트엔드",
-    isBestSeller = true,
-    title,
-    description,
-    rating,
-    ratingCount,
-    studentCount,
-    duration,
-    instructor,
-    thumbnailUrl,
-    learningPoints,
-    curriculum,
-}: CourseInfoProps) {
+    course,
+}: {
+    course: CourseWithRelations;
+}) {
+    console.log("course:::", course);
     const router = useRouter();
 
     const [expandedSections, setExpandedSections] = useState<number[]>([0]);
@@ -59,7 +34,7 @@ export default function CourseInfo({
     };
 
     return (
-        <section>
+        <section className="flex-1">
             <div
                 className="flex items-center gap-3.5 cursor-pointer mb-8 hover:bg-[#1A1A20] w-fit px-3 py-2 rounded-md text-sm font-medium"
                 onClick={() => router.back()}
@@ -70,43 +45,47 @@ export default function CourseInfo({
 
             <div className="mb-3">
                 <button className="h-5 px-2 text-primary text-[10px] font-medium cursor-default bg-primary/20 border-none rounded-md mr-2">
-                    {category}
+                    {course.category.name}
                 </button>
-                {isBestSeller && (
+                {course.isBestseller && (
                     <button className="h-5 px-2 text-black text-[10px] font-medium cursor-default bg-[#FE9A00] border-none rounded-md">
                         베스트셀러
                     </button>
                 )}
             </div>
 
-            <h1 className="text-[26px] font-bold leading-8 mb-4">{title}</h1>
+            <h1 className="text-[26px] font-bold leading-8 mb-4">
+                {course.title}
+            </h1>
 
             <div className="text-secondary text-base leading-6 font-normal mb-4">
-                {description}
+                {course.description}
             </div>
 
             <div className="flex items-center gap-5 text-sm font-semibold mb-3.5">
                 <div className="flex items-center gap-1">
                     <Star className="fill-amber-500 text-amber-500 w-4 h-4" />
-                    {rating} <span>({ratingCount.toLocaleString()}명)</span>
+                    {course.rating}{" "}
+                    <span>({course.rating.toLocaleString()}명)</span>
                 </div>
                 <div className="flex items-center gap-1">
                     <Users className="text-secondary w-4 h-4" />
-                    {studentCount.toLocaleString()}명 수강중
+                    {course.totalStudents.toLocaleString()}명 수강중
                 </div>
                 <div className="flex items-center gap-1">
-                    <Clock className="text-secondary w-4 h-4" /> {duration}
+                    <Clock className="text-secondary w-4 h-4" />{" "}
+                    {course.durationHours}시간
                 </div>
             </div>
 
             <div className="flex items-center gap-2 text-sm font-semibold mb-7">
                 <Award className="w-4 h-4 text-primary" />
-                {instructor}
+                {course.instructorName}
             </div>
 
             <img
-                src={thumbnailUrl}
-                alt={title}
+                src={course.imageUrl || "https://via.placeholder.com/1200x300"}
+                alt={course.title}
                 className="rounded-xl w-full h-84 mb-7"
             />
 
@@ -116,13 +95,13 @@ export default function CourseInfo({
                 </h3>
 
                 <div className="grid grid-cols-2 gap-3">
-                    {learningPoints.map((point, index) => (
+                    {course.learningPoints.map((point, index) => (
                         <div
                             key={index}
                             className="flex items-center gap-2 text-sm leading-4"
                         >
                             <CheckCircle2 className="w-5 h-5 text-primary" />
-                            {point}
+                            {point.description}
                         </div>
                     ))}
                 </div>
@@ -135,7 +114,7 @@ export default function CourseInfo({
                 </div>
 
                 <div className="flex flex-col gap-2.5">
-                    {curriculum.map((section, sectionIndex) => (
+                    {/* {curriculum.map((section, sectionIndex) => (
                         <div
                             key={sectionIndex}
                             className="bg-transparent border border-[#2a2a35] rounded-xl"
@@ -195,7 +174,7 @@ export default function CourseInfo({
                                 </div>
                             )}
                         </div>
-                    ))}
+                    ))} */}
                 </div>
             </div>
         </section>
