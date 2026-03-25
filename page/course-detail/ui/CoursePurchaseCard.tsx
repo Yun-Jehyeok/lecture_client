@@ -2,30 +2,76 @@
 
 import { useState } from "react";
 import PurchaseSuccessModal from "./PurchaseSuccessModal";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/shared/hooks";
+import { enrollCourse } from "@/entities/course";
+import { useCheckEnrollment } from "../hooks/useCheckEnrollment";
 
 interface CoursePurchaseCardProps {
+    courseId: string;
     originalPrice: number;
     currentPrice: number;
     discountRate: number;
-    duration: string;
+    duration: number;
     accessPeriod: string;
-    hasCertificate: boolean;
     lectureCount: number;
 }
 
 export default function CoursePurchaseCard({
+    courseId,
     originalPrice,
     currentPrice,
     discountRate,
     duration,
     accessPeriod,
-    hasCertificate,
     lectureCount,
 }: CoursePurchaseCardProps) {
+    const router = useRouter();
+
+    const { user } = useUser(); // 사용자 정보 가져오기
+    const isEnrolled = useCheckEnrollment(user, courseId); // 수강 신청 여부 확인
+
     const [isOpenSuccessModal, setIsOpenSuccessModal] = useState(false);
 
+    /**
+     * 강의 신청
+     */
+    const handleEnrollCourse = async () => {
+        try {
+            if (!user) {
+                alert("로그인이 필요한 서비스입니다.");
+                return;
+            }
+
+            if (isEnrolled) {
+                alert("이미 수강 중인 강의입니다.");
+                return;
+            }
+
+            const response = await enrollCourse(courseId);
+
+            if (!response) {
+                alert("강의 신청에 실패했습니다. 다시 시도해주세요.");
+                return;
+            }
+
+            setIsOpenSuccessModal(true);
+        } catch (err) {
+            console.error("Failed to enroll in course:", err);
+            alert("강의 신청에 실패했습니다. 다시 시도해주세요.");
+        }
+    };
+
+    /**
+     * 강의 시청 페이지로 이동
+     */
+    const handleWatchCourse = () => {
+        setIsOpenSuccessModal(false);
+        router.push(`/course/player/${courseId}`);
+    };
+
     return (
-        <aside className="p-5 bg-[#1A1A20] rounded-xl border border-[#2A2A35] w-85 h-fit sticky top-5">
+        <aside className="p-5 bg-[#1A1A20] rounded-xl border border-[#2A2A35] w-full lg:w-85 h-fit lg:sticky lg:top-5">
             <div className="text-base font-normal leading-6 text-secondary line-through mb-1">
                 {originalPrice.toLocaleString()}원
             </div>
@@ -37,9 +83,9 @@ export default function CoursePurchaseCard({
             </div>
             <button
                 className="w-full h-10.5 bg-primary text-black text-base font-medium rounded-md cursor-pointer transition-colors hover:bg-primary/90"
-                onClick={() => setIsOpenSuccessModal(true)}
+                onClick={isEnrolled ? handleWatchCourse : handleEnrollCourse}
             >
-                강의 신청하기
+                {isEnrolled ? "강의 보기" : "강의 신청하기"}
             </button>
 
             <div className="w-full h-px bg-[#2a2a35] my-5"></div>
@@ -47,17 +93,11 @@ export default function CoursePurchaseCard({
             <div className="flex flex-col gap-[10.5px]">
                 <div className="flex items-center justify-between text-xs leading-4">
                     <div className="text-secondary">강의 시간</div>
-                    <div className="text-white">{duration}</div>
+                    <div className="text-white">{duration}시간</div>
                 </div>
                 <div className="flex items-center justify-between text-xs leading-4">
                     <div className="text-secondary">수강 기한</div>
                     <div className="text-white">{accessPeriod}</div>
-                </div>
-                <div className="flex items-center justify-between text-xs leading-4">
-                    <div className="text-secondary">수료증</div>
-                    <div className="text-white">
-                        {hasCertificate ? "제공" : "미제공"}
-                    </div>
                 </div>
                 <div className="flex items-center justify-between text-xs leading-4">
                     <div className="text-secondary">강의 수</div>
@@ -68,6 +108,7 @@ export default function CoursePurchaseCard({
             {isOpenSuccessModal && (
                 <PurchaseSuccessModal
                     onCloseModal={() => setIsOpenSuccessModal(false)}
+                    onWatchCourse={handleWatchCourse}
                 />
             )}
         </aside>

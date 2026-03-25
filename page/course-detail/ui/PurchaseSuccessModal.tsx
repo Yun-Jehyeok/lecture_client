@@ -1,14 +1,16 @@
 export default function PurchaseSuccessModal({
     onCloseModal,
+    onWatchCourse,
 }: {
     onCloseModal: () => void;
+    onWatchCourse: () => void;
 }) {
     return (
         <div
-            className="w-screen h-screen flex justify-center items-center bg-black/50 fixed top-0 left-0"
+            className="w-screen h-screen p-4 flex justify-center items-center bg-black/50 fixed top-0 left-0"
             style={{ zIndex: 1000 }}
         >
-            <div className="p-6 bg-white rounded-lg border border-black/10 relative text-center">
+            <div className="p-5 sm:p-6 bg-white rounded-lg border border-black/10 relative text-center w-full max-w-sm">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto bg-primary/20 mb-3.5">
                     <svg
                         width="35"
@@ -42,7 +44,10 @@ export default function PurchaseSuccessModal({
                     축하합니다! 강의가 성공적으로 신청되었습니다.
                 </div>
 
-                <button className="bg-primary text-black w-full flex items-center justify-center h-10 text-sm font-medium gap-2 rounded-md cursor-pointer hover:bg-primary/90 transition-colors">
+                <button
+                    className="bg-primary text-black w-full flex items-center justify-center h-10 text-sm font-medium gap-2 rounded-md cursor-pointer hover:bg-primary/90 transition-colors"
+                    onClick={onWatchCourse}
+                >
                     바로 보러가기
                 </button>
 

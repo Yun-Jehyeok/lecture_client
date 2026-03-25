@@ -1,4 +1,4 @@
-import { getCourse } from "@/entities/course";
+import { getCourse, getCurriculumns } from "@/entities/course";
 import CourseDetailPage from "@/page/course-detail";
 
 export default async function CourseDetail({
@@ -8,9 +8,10 @@ export default async function CourseDetail({
 }) {
     const courseId = (await params).courseId;
     const course = await getCourse({ courseId });
+    const curriculumns = await getCurriculumns({ courseId });
 
     if (!course) {
         return <div>Failed to load course.</div>;
     }
-    return <CourseDetailPage course={course} />;
+    return <CourseDetailPage course={course} curriculumns={curriculumns} />;
 }

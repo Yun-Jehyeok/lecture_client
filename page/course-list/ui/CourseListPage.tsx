@@ -7,14 +7,16 @@ export default function CourseListPage({
     courses: CourseWithRelations[];
 }) {
     return (
-        <div className="text-white p-5 h-full">
-            <h2 className="text-2xl leading-7 font-bold mb-2">전체 강의</h2>
+        <div className="text-white p-4 sm:p-5 h-full">
+            <h2 className="text-xl sm:text-2xl leading-7 font-bold mb-2">
+                전체 강의
+            </h2>
             <div className="text-secondary text-sm font-normal leading-5">
                 총 {courses.length}개의 강의
             </div>
 
-            {courses.length > 1 ? (
-                <div className="mt-6 grid grid-cols-4 gap-5">
+            {courses.length ? (
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
                     {courses.map((course) => (
                         <CourseCard key={course.id} course={course} />
                     ))}

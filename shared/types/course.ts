@@ -2,7 +2,11 @@ export type Category = {
     id: string;
     name: string;
     slug: string;
-    icon?: string;
+    icon?:
+        | string
+        | ForwardRefExoticComponent<
+              Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+          >;
     displayOrder: number;
     createdAt: Date;
     updatedAt: Date;
@@ -20,7 +24,7 @@ export type Course = {
     description: string;
     imageUrl: string;
     price: number;
-    originalPrice?: number;
+    originalPrice: number;
     durationHours: number;
     rating: number;
     totalStudents: number;
@@ -42,15 +46,11 @@ export type CourseWithRelations = Course & {
 
 export type CurriculumSection = {
     id: string;
-    courseId: string;
     title: string;
     displayOrder: number;
-    createdAt: Date;
-    updatedAt: Date;
 };
 
 export type CurriculumSectionWithRelations = CurriculumSection & {
-    course: Course;
     lessons: Lesson[];
 };
 
@@ -60,6 +60,7 @@ export type Lesson = {
     title: string;
     videoUrl: string;
     durationMinutes: number;
+    watchTimeSeconds: number;
     description?: string;
     materialsUrl?: string;
     displayOrder: number;
@@ -90,3 +91,5 @@ import type { Enrollment } from "./enrollment";
 import type { Review } from "./review";
 import type { RecentCourse } from "./recent-course";
 import type { UserLessonProgress, Note } from "./enrollment";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { LucideProps } from "lucide-react";

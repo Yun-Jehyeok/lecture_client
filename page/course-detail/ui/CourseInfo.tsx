@@ -1,6 +1,10 @@
 "use client";
 
-import { Course, CourseWithRelations } from "@/shared/types";
+import {
+    Course,
+    CourseWithRelations,
+    CurriculumSectionWithRelations,
+} from "@/shared/types";
 import {
     ArrowLeft,
     Award,
@@ -17,10 +21,11 @@ import { useState } from "react";
 
 export default function CourseInfo({
     course,
+    curriculumns,
 }: {
     course: CourseWithRelations;
+    curriculumns: CurriculumSectionWithRelations[];
 }) {
-    console.log("course:::", course);
     const router = useRouter();
 
     const [expandedSections, setExpandedSections] = useState<number[]>([0]);
@@ -34,9 +39,9 @@ export default function CourseInfo({
     };
 
     return (
-        <section className="flex-1">
+        <section className="flex-1 min-w-0">
             <div
-                className="flex items-center gap-3.5 cursor-pointer mb-8 hover:bg-[#1A1A20] w-fit px-3 py-2 rounded-md text-sm font-medium"
+                className="flex items-center gap-3.5 cursor-pointer mb-5 sm:mb-8 hover:bg-[#1A1A20] w-fit px-3 py-2 rounded-md text-sm font-medium"
                 onClick={() => router.back()}
             >
                 <ArrowLeft size={14} />
@@ -54,7 +59,7 @@ export default function CourseInfo({
                 )}
             </div>
 
-            <h1 className="text-[26px] font-bold leading-8 mb-4">
+            <h1 className="text-2xl sm:text-[26px] font-bold leading-8 mb-4 wrap-break-word">
                 {course.title}
             </h1>
 
@@ -62,11 +67,11 @@ export default function CourseInfo({
                 {course.description}
             </div>
 
-            <div className="flex items-center gap-5 text-sm font-semibold mb-3.5">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-sm font-semibold mb-3.5">
                 <div className="flex items-center gap-1">
                     <Star className="fill-amber-500 text-amber-500 w-4 h-4" />
                     {course.rating}{" "}
-                    <span>({course.rating.toLocaleString()}명)</span>
+                    <span>({course.totalStudents.toLocaleString()}명)</span>
                 </div>
                 <div className="flex items-center gap-1">
                     <Users className="text-secondary w-4 h-4" />
@@ -86,15 +91,15 @@ export default function CourseInfo({
             <img
                 src={course.imageUrl || "https://via.placeholder.com/1200x300"}
                 alt={course.title}
-                className="rounded-xl w-full h-84 mb-7"
+                className="rounded-xl w-full h-52 sm:h-84 object-cover mb-7"
             />
 
-            <div className="w-full p-5 bg-[#1a1a20] rounded-xl border border-[#2a2a35] mb-7">
+            <div className="w-full p-4 sm:p-5 bg-[#1a1a20] rounded-xl border border-[#2a2a35] mb-7">
                 <h3 className="text-lg font-bold leading-6 mb-8">
                     이 강의를 통해 배우는 것
                 </h3>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {course.learningPoints.map((point, index) => (
                         <div
                             key={index}
@@ -107,14 +112,14 @@ export default function CourseInfo({
                 </div>
             </div>
 
-            <div className="w-full p-5 bg-[#1a1a20] rounded-xl border border-[#2a2a35]">
+            <div className="w-full p-4 sm:p-5 bg-[#1a1a20] rounded-xl border border-[#2a2a35]">
                 <h3 className="text-lg font-bold leading-6 mb-4">커리큘럼</h3>
                 <div className="text-sm leading-6 font-normal text-secondary mb-8">
                     4개 섹션 • 15개 강의 • 24시간
                 </div>
 
                 <div className="flex flex-col gap-2.5">
-                    {/* {curriculum.map((section, sectionIndex) => (
+                    {curriculumns.map((section, sectionIndex) => (
                         <div
                             key={sectionIndex}
                             className="bg-transparent border border-[#2a2a35] rounded-xl"
@@ -135,10 +140,10 @@ export default function CourseInfo({
                                     )}
                                     <div className="text-left">
                                         <h3 className="font-semibold">
-                                            {section.sectionTitle}
+                                            {section.title}
                                         </h3>
                                         <p className="text-sm text-secondary">
-                                            {section.lectures.length}개 강의
+                                            {section.lessons.length}개 강의
                                         </p>
                                     </div>
                                 </div>
@@ -146,7 +151,7 @@ export default function CourseInfo({
 
                             {expandedSections.includes(sectionIndex) && (
                                 <div className="border-t border-[#2a2a35]">
-                                    {section.lectures.map(
+                                    {section.lessons.map(
                                         (lesson, lessonIndex) => {
                                             return (
                                                 <button
@@ -156,16 +161,17 @@ export default function CourseInfo({
                                                             "/course/player/1",
                                                         )
                                                     }
-                                                    className="w-full p-4 cursor-pointer flex items-center justify-between transition-colors group"
+                                                    className="w-full p-4 cursor-pointer flex items-start justify-between gap-3 transition-colors group"
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <Play className="w-4 h-4 text-secondary group-hover:text-primary transition-colors" />
-                                                        <span className="text-sm group-hover:text-primary transition-colors">
+                                                        <span className="text-sm group-hover:text-primary transition-colors text-left wrap-break-word">
                                                             {lesson.title}
                                                         </span>
                                                     </div>
                                                     <span className="text-sm text-secondary">
-                                                        {lesson.duration}
+                                                        {lesson.durationMinutes}
+                                                        분
                                                     </span>
                                                 </button>
                                             );
@@ -174,7 +180,7 @@ export default function CourseInfo({
                                 </div>
                             )}
                         </div>
-                    ))} */}
+                    ))}
                 </div>
             </div>
         </section>

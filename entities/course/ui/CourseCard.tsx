@@ -12,15 +12,16 @@ export default function CourseCard({
     return (
         <Link
             href={`/course/${course.id}`}
-            className="bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 hover:scale-[1.02] group"
+            className="relative overflow-hidden bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 md:hover:scale-[1.02] group"
         >
-            <div className="h-35">
+            <div className="h-44 sm:h-35">
                 <img
                     src="https://picsum.photos/300/140"
-                    className="rounded-t-xl w-full object-fit h-35"
+                    className="rounded-t-xl w-full object-cover h-44 sm:h-35"
+                    alt={course.title}
                 />
 
-                <div className="absolute top-0 left-0 hidden group-hover:flex rounded-t-xl w-full h-35 bg-black/40 justify-center items-center">
+                <div className="absolute top-0 left-0 hidden md:group-hover:flex rounded-t-xl w-full h-44 sm:h-35 bg-black/40 justify-center items-center">
                     <button className="bg-primary text-black flex items-center justify-center gap-2 px-3 py-2 rounded-md cursor-pointer text-sm">
                         <Play className="w-4 h-4" />
                         수강하기
