@@ -67,7 +67,7 @@ export default function CoursePurchaseCard({
      */
     const handleWatchCourse = () => {
         setIsOpenSuccessModal(false);
-        router.push(`/course/player/${courseId}`);
+        router.push(`/course/player/${courseId}?lesson=1`);
     };
 
     return (

@@ -114,7 +114,7 @@ export const getLesson = async ({
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${token}`,
                 },
             },
         );
@@ -124,7 +124,6 @@ export const getLesson = async ({
         }
 
         const result: Lesson = await response.json();
-        console.log("Lesson response:", result);
 
         return result;
     } catch (err) {

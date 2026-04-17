@@ -3,25 +3,35 @@ export default function LoginModal({
 }: {
     onCloseModal: () => void;
 }) {
-    const onSocialLogin = async (provider: string) => {
-        // Implement social login logic here
-        console.log(`Logging in with ${provider}`);
-        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/${provider}`;
+    const onSocialLogin = (provider: "google" | "kakao" | "naver") => {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+
+        if (!apiBaseUrl) {
+            console.error("NEXT_PUBLIC_API_URL is not configured");
+            return;
+        }
+
+        const socialLoginStartUrl = new URL(
+            `/api/auth/${provider}`,
+            apiBaseUrl,
+        );
+
+        window.location.href = socialLoginStartUrl.toString();
     };
 
     return (
         <div
-            className="w-screen h-screen p-4 flex justify-center items-center bg-black/50 fixed top-0 left-0"
+            className="w-screen h-screen flex justify-center items-center bg-black/50 fixed top-0 left-0"
             style={{ zIndex: 1000 }}
         >
-            <div className="p-5 sm:p-6 bg-white rounded-lg border border-black/10 relative text-center w-full max-w-sm">
+            <div className="p-6 bg-white rounded-lg border border-black/10 relative text-center">
                 <div className="text-xl leading-7 text-[#0a0a0a] font-semibold mb-3">
                     로그인
                 </div>
                 <div className="text-sm leading-4 text-[#717182]">
                     소셜 계정으로 간편하게 시작하세요
                 </div>
-                <div className="my-6 sm:my-8 flex flex-col gap-2.5 w-full">
+                <div className="my-8 flex flex-col gap-2.5 w-87">
                     <button
                         className="cursor-pointer text-sm font-medium text-black w-full h-10.5 rounded-md bg-white border border-black/10 relative hover:bg-gray-100 transition-colors"
                         onClick={() => onSocialLogin("google")}
@@ -54,7 +64,7 @@ export default function LoginModal({
 
                         <div className="leading-10.5">Google로 계속하기</div>
                     </button>
-                    <button
+                    {/* <button
                         className="cursor-pointer text-sm font-medium text-black w-full h-10.5 rounded-md bg-[#fee500] relative hover:bg-yellow-400 transition-colors"
                         onClick={() => onSocialLogin("kakao")}
                     >
@@ -100,7 +110,7 @@ export default function LoginModal({
                         </svg>
 
                         <div className="leading-10.5">네이버로 계속하기</div>
-                    </button>
+                    </button> */}
                 </div>
                 <div className="text-xs leading-4 text-[#717182]">
                     소셜 로그인을 통해 DevLearn의

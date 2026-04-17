@@ -25,6 +25,7 @@ export default async function CoursePlayer({
 
     return (
         <CoursePlayerPage
+            courseId={courseId}
             curriculumns={curriculumns}
             progress={progress}
             lesson={lesson}

@@ -16,7 +16,7 @@ export default function CourseCard({
         >
             <div className="h-44 sm:h-35">
                 <img
-                    src="https://picsum.photos/300/140"
+                    src={course.imageUrl}
                     className="rounded-t-xl w-full object-cover h-44 sm:h-35"
                     alt={course.title}
                 />
@@ -35,7 +35,7 @@ export default function CourseCard({
                 </div>
                 <div className="flex flex-col gap-2.5 text-xs leading-4 font-normal text-secondary">
                     <div>{course.instructorName}</div>
-                    <div className="flex items-center">
+                    {/* <div className="flex items-center">
                         <span className="text-sm text-white leading-5 flex items-center gap-1">
                             <svg
                                 width="14"
@@ -56,7 +56,7 @@ export default function CourseCard({
                             {course.rating}
                         </span>
                         &nbsp; ({course.totalStudents}명)
-                    </div>
+                    </div> */}
                     <div className="flex items-center gap-1">
                         <svg
                             width="11"

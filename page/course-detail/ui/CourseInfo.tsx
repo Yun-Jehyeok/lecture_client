@@ -1,5 +1,6 @@
 "use client";
 
+import { useUser } from "@/shared/hooks";
 import {
     Course,
     CourseWithRelations,
@@ -27,6 +28,7 @@ export default function CourseInfo({
     curriculumns: CurriculumSectionWithRelations[];
 }) {
     const router = useRouter();
+    const { user } = useUser(); // 사용자 정보 가져오기
 
     const [expandedSections, setExpandedSections] = useState<number[]>([0]);
 
@@ -63,16 +65,12 @@ export default function CourseInfo({
                 {course.title}
             </h1>
 
-            <div className="text-secondary text-base leading-6 font-normal mb-4">
-                {course.description}
-            </div>
-
             <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-sm font-semibold mb-3.5">
-                <div className="flex items-center gap-1">
+                {/* <div className="flex items-center gap-1">
                     <Star className="fill-amber-500 text-amber-500 w-4 h-4" />
                     {course.rating}{" "}
                     <span>({course.totalStudents.toLocaleString()}명)</span>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-1">
                     <Users className="text-secondary w-4 h-4" />
                     {course.totalStudents.toLocaleString()}명 수강중
@@ -92,6 +90,11 @@ export default function CourseInfo({
                 src={course.imageUrl || "https://via.placeholder.com/1200x300"}
                 alt={course.title}
                 className="rounded-xl w-full h-52 sm:h-84 object-cover mb-7"
+            />
+
+            <div
+                className="text-white text-base leading-6 font-normal my-8 p-8 bg-[#1a1a20] rounded-xl border border-[#2a2a35]"
+                dangerouslySetInnerHTML={{ __html: course.description }}
             />
 
             <div className="w-full p-4 sm:p-5 bg-[#1a1a20] rounded-xl border border-[#2a2a35] mb-7">
@@ -156,11 +159,18 @@ export default function CourseInfo({
                                             return (
                                                 <button
                                                     key={lessonIndex}
-                                                    onClick={() =>
+                                                    onClick={() => {
+                                                        if (!user) {
+                                                            alert(
+                                                                "로그인이 필요한 서비스입니다.",
+                                                            );
+                                                            return;
+                                                        }
+
                                                         router.push(
-                                                            "/course/player/1",
-                                                        )
-                                                    }
+                                                            `/course/player/${course.id}?lesson=${lesson.id}`,
+                                                        );
+                                                    }}
                                                     className="w-full p-4 cursor-pointer flex items-start justify-between gap-3 transition-colors group"
                                                 >
                                                     <div className="flex items-center gap-3">

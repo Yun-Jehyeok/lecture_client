@@ -20,7 +20,6 @@ export default function LNB({
     const pathname = usePathname();
 
     const { user } = useUser(prefetchedUser);
-    console.log("user:::", user);
 
     const activeMenu = params.get("ct") || "all";
 

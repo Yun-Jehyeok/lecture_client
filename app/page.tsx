@@ -1,13 +1,7 @@
 import { getCourses, getLesson } from "@/entities/course";
 import CourseListPage from "@/page/course-list";
 
-export default async function Home({
-    searchParams,
-}: {
-    searchParams: Promise<Record<string, string | undefined>>;
-}) {
-    const ct = (await searchParams).ct;
-    const category = ct ?? "all";
+export default async function Home() {
     const courses = await getCourses();
 
     if (!courses) {

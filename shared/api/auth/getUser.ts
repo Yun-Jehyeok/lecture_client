@@ -20,7 +20,6 @@ export const getUser = async ({
             },
         );
 
-        console.log("response:::", response);
         if (response.ok) {
             const userData = await response.json();
             return userData;

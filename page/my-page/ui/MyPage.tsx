@@ -103,7 +103,10 @@ export default function MyPage({
                                         </div>
                                         <div className="text-xs text-secondary">
                                             진행률{" "}
-                                            {enrollment.progressPercentage}%
+                                            {Math.round(
+                                                enrollment.progressPercentage,
+                                            )}
+                                            %
                                         </div>
                                     </div>
                                     <ArrowRight className="w-4 h-4 mt-1 text-secondary shrink-0" />

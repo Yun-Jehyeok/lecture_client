@@ -1,11 +1,12 @@
 import { cookies } from "next/headers";
 
+const ACCESS_TOKEN_COOKIE = "accessToken";
+
 export async function GET() {
     try {
         const cookieStore = await cookies();
-        const accessToken = cookieStore.get("accessToken")?.value;
+        const accessToken = cookieStore.get(ACCESS_TOKEN_COOKIE)?.value;
 
-        console.log("Access Token:", accessToken);
         if (!accessToken) {
             return new Response(
                 JSON.stringify({ error: "Access token not found" }),
