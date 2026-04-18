@@ -3,7 +3,7 @@ import "./styles/globals.css";
 import LNB from "@/widget/lnb";
 import { getCategories } from "@/entities/course";
 import { cookies } from "next/headers";
-import { getUser } from "@/shared/api";
+import { getUserServer } from "@/shared/api/auth/getUserServer";
 
 export const metadata: Metadata = {
     title: "DevLearn",
@@ -19,7 +19,7 @@ export default async function RootLayout({
     const cookie = await cookies();
     const accessToken = cookie.get("accessToken")?.value;
 
-    const user = await getUser({ accessToken });
+    const user = await getUserServer({ accessToken });
 
     return (
         <html lang="en">

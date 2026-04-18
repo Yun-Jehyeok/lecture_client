@@ -1,31 +1,24 @@
-import { getAccessToken } from "./getAccessToken";
-
 export const getUser = async ({
     accessToken,
 }: { accessToken?: string } = {}) => {
     try {
-        const token = accessToken || (await getAccessToken());
-        if (!token) {
+        const response = await fetch("/api/auth/me", {
+            method: "GET",
+            credentials: "include",
+            headers: accessToken
+                ? {
+                      Authorization: `Bearer ${accessToken}`,
+                  }
+                : undefined,
+            cache: "no-store",
+        });
+
+        if (!response.ok) {
             return null;
         }
 
-        const response = await fetch(
-            process.env.NEXT_PUBLIC_API_URL + "/auth/me",
-            {
-                method: "GET",
-                credentials: "include",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            },
-        );
-
-        if (response.ok) {
-            const userData = await response.json();
-            return userData;
-        } else {
-            return null;
-        }
+        const userData = await response.json();
+        return userData;
     } catch (error) {
         console.error("Failed to fetch user:", error);
         return null;
