@@ -1,4 +1,3 @@
-import { getAccessToken } from "@/shared/api";
 import {
     BaseResponse,
     Category,
@@ -101,23 +100,21 @@ export const getLesson = async ({
     accessToken?: string;
 }) => {
     try {
-        const token = accessToken ?? (await getAccessToken());
-        if (!token) {
+        if (!accessToken && typeof window === "undefined") {
             throw new Error(
-                "Access token is required for fetching lesson details.",
+                "Use getLessonServer when fetching lesson details on the server.",
             );
         }
 
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/lessons/${lessonId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            },
-        );
+        const response = await fetch(`/api/lessons/${lessonId}`, {
+            method: "GET",
+            headers: accessToken
+                ? {
+                      Authorization: `Bearer ${accessToken}`,
+                  }
+                : undefined,
+            cache: "no-store",
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -211,25 +208,13 @@ export const getCategories = async () => {
  */
 export const enrollCourse = async (courseId: string) => {
     try {
-        const accessToken = await getAccessToken();
-
-        if (!accessToken) {
-            throw new Error(
-                "Access token is required for enrolling in a course.",
-            );
-        }
-
-        const response = await fetch(
-            process.env.NEXT_PUBLIC_API_URL + `/enrollments`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({ courseId }),
+        const response = await fetch(`/api/enrollments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-        );
+            body: JSON.stringify({ courseId }),
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -255,24 +240,10 @@ export const enrollCourse = async (courseId: string) => {
  */
 export const checkEnrollmentApi = async (courseId: string) => {
     try {
-        const accessToken = await getAccessToken();
-
-        if (!accessToken) {
-            throw new Error(
-                "Access token is required for checking enrollment status.",
-            );
-        }
-
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/enrollments/${courseId}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            },
-        );
+        const response = await fetch(`/api/enrollments/${courseId}`, {
+            method: "GET",
+            cache: "no-store",
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -303,22 +274,21 @@ export const getCourseProgress = async (
     accessToken?: string,
 ) => {
     try {
-        if (!accessToken) {
+        if (!accessToken && typeof window === "undefined") {
             throw new Error(
-                "Access token is required for checking course progress.",
+                "Use getCourseProgressServer when fetching course progress on the server.",
             );
         }
 
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/enrollments/${courseId}/progress`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            },
-        );
+        const response = await fetch(`/api/enrollments/${courseId}/progress`, {
+            method: "GET",
+            headers: accessToken
+                ? {
+                      Authorization: `Bearer ${accessToken}`,
+                  }
+                : undefined,
+            cache: "no-store",
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -354,20 +324,19 @@ export const getMyEnrollments = async (
     accessToken?: string,
 ): Promise<MyEnrollmentItem[]> => {
     try {
-        if (!accessToken) {
+        if (!accessToken && typeof window === "undefined") {
             return [];
         }
 
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/enrollments`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            },
-        );
+        const response = await fetch(`/api/enrollments`, {
+            method: "GET",
+            headers: accessToken
+                ? {
+                      Authorization: `Bearer ${accessToken}`,
+                  }
+                : undefined,
+            cache: "no-store",
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

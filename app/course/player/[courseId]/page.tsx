@@ -1,8 +1,8 @@
+import { getCurriculumns } from "@/entities/course";
 import {
-    getCourseProgress,
-    getCurriculumns,
-    getLesson,
-} from "@/entities/course";
+    getCourseProgressServer,
+    getLessonServer,
+} from "@/entities/course/api/courseApiServer";
 import CoursePlayerPage from "@/page/course-player";
 import { cookies } from "next/headers";
 
@@ -16,9 +16,9 @@ export default async function CoursePlayer({
 
     const cookie = await cookies();
     const accessToken = cookie.get("accessToken")?.value;
-    const progress = await getCourseProgress(courseId, accessToken);
+    const progress = await getCourseProgressServer(courseId, accessToken);
 
-    const lesson = await getLesson({
+    const lesson = await getLessonServer({
         lessonId: curriculumns[0].lessons[0]!.id,
         accessToken,
     });

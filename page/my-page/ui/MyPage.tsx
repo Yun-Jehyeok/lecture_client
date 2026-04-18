@@ -1,11 +1,11 @@
 "use client";
 
 import { MyEnrollmentItem } from "@/entities/course";
+import { logout } from "@/entities/user/index";
 import { useUser } from "@/shared/hooks";
 import { ArrowRight, BookOpen, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { logout } from "@/entities/user/userApi";
 import { AUTH_CHANGED_EVENT } from "@/shared/hooks/useUser";
 import { User } from "@/shared/types";
 

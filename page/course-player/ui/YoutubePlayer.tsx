@@ -1,7 +1,6 @@
 "use client";
 
 import { completeLesson, updateWatchTime } from "@/entities/player";
-import { getAccessToken } from "@/shared/api";
 import { useEffect, useRef } from "react";
 
 declare global {
@@ -29,7 +28,6 @@ export default function YoutubePlayer({
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const isReadyRef = useRef(false);
     const lessonIdRef = useRef(lessonId);
-    const accessTokenRef = useRef<string | null>(null);
 
     lessonIdRef.current = lessonId;
 
@@ -50,14 +48,6 @@ export default function YoutubePlayer({
     };
 
     useEffect(() => {
-        let isMounted = true;
-
-        getAccessToken().then((token) => {
-            if (isMounted) {
-                accessTokenRef.current = token;
-            }
-        });
-
         const loadYoutubeAPI = () => {
             if (
                 document.querySelector(
@@ -118,11 +108,7 @@ export default function YoutubePlayer({
 
                 const current = playerRef.current.getCurrentTime();
                 const currentTime = Math.floor(current);
-                updateWatchTime(
-                    lessonIdRef.current,
-                    currentTime,
-                    accessTokenRef.current,
-                );
+                updateWatchTime(lessonIdRef.current, currentTime);
             }, 5000);
         }
 
@@ -134,7 +120,6 @@ export default function YoutubePlayer({
         }
 
         return () => {
-            isMounted = false;
             isReadyRef.current = false;
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
