@@ -29,6 +29,7 @@ export default function CoursePurchaseCard({
     const router = useRouter();
 
     const { user } = useUser(); // 사용자 정보 가져오기
+    console.log("Current User:", user); // 사용자 정보 로그로 확인
     const isEnrolled = useCheckEnrollment(user, courseId); // 수강 신청 여부 확인
 
     const [isOpenSuccessModal, setIsOpenSuccessModal] = useState(false);

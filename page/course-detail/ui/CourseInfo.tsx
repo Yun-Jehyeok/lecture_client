@@ -2,7 +2,6 @@
 
 import { useUser } from "@/shared/hooks";
 import {
-    Course,
     CourseWithRelations,
     CurriculumSectionWithRelations,
 } from "@/shared/types";
@@ -14,7 +13,6 @@ import {
     ChevronUp,
     Clock,
     Play,
-    Star,
     Users,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
