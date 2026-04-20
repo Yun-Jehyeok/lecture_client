@@ -11,7 +11,6 @@ export const useUser = (initialUser: UserType | null = null) => {
         const fetchUser = async () => {
             try {
                 const user = await getUser();
-                console.log("Fetched User:", user); // 가져온 사용자 정보 로그로 확인
                 setUser(user);
             } catch (error) {
                 console.error("Failed to fetch user:", error);
