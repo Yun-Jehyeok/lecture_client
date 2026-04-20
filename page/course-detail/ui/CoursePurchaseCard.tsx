@@ -1,10 +1,9 @@
 "use client";
 
+import { enrollCourse } from "@/entities/course";
+import { useTrackedRouter, useUser } from "@/shared/hooks";
 import { useState } from "react";
 import PurchaseSuccessModal from "./PurchaseSuccessModal";
-import { useRouter } from "next/navigation";
-import { useUser } from "@/shared/hooks";
-import { enrollCourse } from "@/entities/course";
 import { useCheckEnrollment } from "../hooks/useCheckEnrollment";
 
 interface CoursePurchaseCardProps {
@@ -26,7 +25,7 @@ export default function CoursePurchaseCard({
     accessPeriod,
     lectureCount,
 }: CoursePurchaseCardProps) {
-    const router = useRouter();
+    const router = useTrackedRouter();
 
     const { user } = useUser(); // 사용자 정보 가져오기
     console.log("Current User:", user); // 사용자 정보 로그로 확인
