@@ -1,8 +1,8 @@
 "use client";
 
 import { CourseWithRelations } from "@/shared/types";
+import TrackedLink from "@/shared/ui/TrackedLink";
 import { Play } from "lucide-react";
-import Link from "next/link";
 
 export default function CourseCard({
     course,
@@ -10,7 +10,7 @@ export default function CourseCard({
     course: CourseWithRelations;
 }) {
     return (
-        <Link
+        <TrackedLink
             href={`/course/${course.id}`}
             className="relative overflow-hidden bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 md:hover:scale-[1.02] group"
         >
@@ -160,6 +160,6 @@ export default function CourseCard({
                     </div>
                 </div>
             </div>
-        </Link>
+        </TrackedLink>
     );
 }

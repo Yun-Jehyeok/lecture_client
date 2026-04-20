@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/shared/hooks";
+import { useTrackedRouter, useUser } from "@/shared/hooks";
 import {
     CourseWithRelations,
     CurriculumSectionWithRelations,
@@ -15,7 +15,6 @@ import {
     Play,
     Users,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CourseInfo({
@@ -25,7 +24,7 @@ export default function CourseInfo({
     course: CourseWithRelations;
     curriculumns: CurriculumSectionWithRelations[];
 }) {
-    const router = useRouter();
+    const router = useTrackedRouter();
     const { user } = useUser(); // 사용자 정보 가져오기
 
     const [expandedSections, setExpandedSections] = useState<number[]>([0]);
