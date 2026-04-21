@@ -1,4 +1,4 @@
-import TrackedLink from "@/shared/ui/TrackedLink";
+import Link from "next/link";
 
 type SocialAuthPageProps = {
     searchParams: Promise<{
@@ -27,12 +27,12 @@ export default async function SocialAuthPage({
             <div className="text-center px-4">
                 <h1 className="text-2xl font-bold mb-3">로그인 실패</h1>
                 <p className="text-sm text-gray-600 mb-6">{message}</p>
-                <TrackedLink
+                <Link
                     href="/"
                     className="inline-flex h-10 px-4 items-center justify-center rounded-md bg-black text-white text-sm"
                 >
                     홈으로 이동
-                </TrackedLink>
+                </Link>
             </div>
         </div>
     );

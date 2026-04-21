@@ -4,7 +4,6 @@ import LNB from "@/widget/lnb";
 import { getCategories } from "@/entities/course";
 import { cookies } from "next/headers";
 import { getUserServer } from "@/shared/api/auth/getUserServer";
-import RouteChangeTracker from "./providers/RouteChangeTracker";
 
 export const metadata: Metadata = {
     title: "DevLearn",
@@ -39,7 +38,6 @@ export default async function RootLayout({
             <body
                 className={`antialiased flex flex-col md:flex-row min-h-screen`}
             >
-                <RouteChangeTracker />
                 <LNB
                     initialCategories={initialCategories}
                     prefetchedUser={user}

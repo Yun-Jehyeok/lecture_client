@@ -7,8 +7,10 @@ export default async function CourseDetail({
     params: Promise<{ courseId: string }>;
 }) {
     const courseId = (await params).courseId;
-    const course = await getCourse({ courseId });
-    const curriculumns = await getCurriculumns({ courseId });
+    const [course, curriculumns] = await Promise.all([
+        getCourse({ courseId }),
+        getCurriculumns({ courseId }),
+    ]);
 
     if (!course) {
         return <div>Failed to load course.</div>;

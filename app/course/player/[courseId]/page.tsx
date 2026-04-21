@@ -12,11 +12,13 @@ export default async function CoursePlayer({
     params: Promise<{ courseId: string }>;
 }) {
     const { courseId } = await params;
-    const curriculumns = await getCurriculumns({ courseId });
-
     const cookie = await cookies();
     const accessToken = cookie.get("accessToken")?.value;
-    const progress = await getCourseProgressServer(courseId, accessToken);
+
+    const [curriculumns, progress] = await Promise.all([
+        getCurriculumns({ courseId }),
+        getCourseProgressServer(courseId, accessToken),
+    ]);
 
     const lesson = await getLessonServer({
         lessonId: curriculumns[0].lessons[0]!.id,

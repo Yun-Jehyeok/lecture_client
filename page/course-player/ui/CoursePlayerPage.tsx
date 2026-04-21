@@ -2,10 +2,9 @@
 
 import { CourseProgress } from "@/entities/course/model/types";
 import { getLesson } from "@/entities/course";
-import { useTrackedRouter } from "@/shared/hooks";
 import { CurriculumSectionWithRelations, Lesson } from "@/shared/types";
 import { ArrowLeft, Clock, Play } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import YoutubePlayer from "./YoutubePlayer";
 
@@ -20,7 +19,7 @@ export default function CoursePlayerPage({
     progress: CourseProgress;
     lesson: Lesson;
 }) {
-    const router = useTrackedRouter();
+    const router = useRouter();
     const lesson_id = useSearchParams().get("lesson") || "1"; // URL에서 lessonId 쿼리 파라미터 가져오기
 
     const [currentLesson, setCurrentLesson] = useState<Lesson>(lesson); // 현재 선택된 강의 (초기 값은 첫 번째 강의)

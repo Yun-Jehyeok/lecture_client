@@ -1,12 +1,12 @@
 "use client";
 
 import LoginModal from "@/features/auth/ui/LoginModal";
-import { useTrackedRouter, useUser } from "@/shared/hooks";
-import TrackedLink from "@/shared/ui/TrackedLink";
+import { useUser } from "@/shared/hooks";
 import { Category, User } from "@/shared/types";
 import { Home, Code, BookOpen, LogIn, User as UserIco } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function LNB({
     initialCategories,
@@ -15,7 +15,7 @@ export default function LNB({
     initialCategories: Category[];
     prefetchedUser: User | null;
 }) {
-    const router = useTrackedRouter();
+    const router = useRouter();
     const params = useSearchParams();
     const pathname = usePathname();
 
@@ -47,7 +47,7 @@ export default function LNB({
             <div>
                 {/* Logo Section */}
                 <h1 className="p-4 md:p-5 border-b border-[#2A2A35]">
-                    <TrackedLink
+                    <Link
                         href="/"
                         className="text-lg font-semibold leading-6 text-white flex items-center gap-2"
                     >
@@ -55,7 +55,7 @@ export default function LNB({
                             <BookOpen />
                         </div>
                         DevLearn
-                    </TrackedLink>
+                    </Link>
                 </h1>
 
                 {/* Menu Items */}
