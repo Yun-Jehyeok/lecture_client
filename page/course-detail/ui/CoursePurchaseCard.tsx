@@ -2,7 +2,7 @@
 
 import { enrollCourse } from "@/entities/course";
 import { useTrackedRouter, useUser } from "@/shared/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PurchaseSuccessModal from "./PurchaseSuccessModal";
 import { useCheckEnrollment } from "../hooks/useCheckEnrollment";
 
@@ -28,9 +28,25 @@ export default function CoursePurchaseCard({
     const router = useTrackedRouter();
 
     const { user } = useUser(); // 사용자 정보 가져오기
-    const isEnrolled = useCheckEnrollment(user, courseId); // 수강 신청 여부 확인
+    const { isEnrolled, isLoading, durationMs } = useCheckEnrollment(
+        user,
+        courseId,
+    ); // 수강 신청 여부 확인
 
     const [isOpenSuccessModal, setIsOpenSuccessModal] = useState(false);
+
+    useEffect(() => {
+        if (durationMs === null) {
+            return;
+        }
+
+        console.info("Enrollment check completed", {
+            courseId,
+            isEnrolled,
+            isLoading,
+            durationMs,
+        });
+    }, [courseId, durationMs, isEnrolled, isLoading]);
 
     /**
      * 강의 신청
@@ -83,8 +99,13 @@ export default function CoursePurchaseCard({
             <button
                 className="w-full h-10.5 bg-primary text-black text-base font-medium rounded-md cursor-pointer transition-colors hover:bg-primary/90"
                 onClick={isEnrolled ? handleWatchCourse : handleEnrollCourse}
+                disabled={isLoading}
             >
-                {isEnrolled ? "강의 보기" : "강의 신청하기"}
+                {isLoading
+                    ? "수강 여부 확인 중..."
+                    : isEnrolled
+                      ? "강의 보기"
+                      : "강의 신청하기"}
             </button>
 
             <div className="w-full h-px bg-[#2a2a35] my-5"></div>
