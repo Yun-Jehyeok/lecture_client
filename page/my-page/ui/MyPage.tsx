@@ -2,11 +2,12 @@
 
 import { MyEnrollmentItem } from "@/entities/course";
 import { logout } from "@/entities/user/index";
-import { useTrackedRouter, useUser } from "@/shared/hooks";
+import { useUser } from "@/shared/hooks";
 import { ArrowRight, BookOpen, LogOut } from "lucide-react";
 import { useState } from "react";
 import { AUTH_CHANGED_EVENT } from "@/shared/hooks/useUser";
 import { User } from "@/shared/types";
+import { useRouter } from "next/navigation";
 
 export default function MyPage({
     enrollments,
@@ -15,7 +16,7 @@ export default function MyPage({
     enrollments: MyEnrollmentItem[];
     user: User;
 }) {
-    const router = useTrackedRouter();
+    const router = useRouter();
     const { setUser } = useUser();
 
     const [isLoggingOut, setIsLoggingOut] = useState(false);
