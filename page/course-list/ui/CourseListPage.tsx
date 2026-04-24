@@ -17,7 +17,7 @@ export default function CourseListPage({
 
             {courses.length ? (
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
-                    {courses.map((course) => (
+                    {courses.sort((a, b) => Number(a.id) - Number(b.id)).map((course) => (
                         <CourseCard key={course.id} course={course} />
                     ))}
                 </div>

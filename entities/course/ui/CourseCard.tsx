@@ -11,10 +11,19 @@ export default function CourseCard({
 }) {
     return (
         <Link
-            href={`/course/${course.id}`}
-            className="relative overflow-hidden bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 md:hover:scale-[1.02] group"
+            href={`${course.id === '1' ? `/course/${course.id}` : '/'}`}
+            onClick={() => {
+                if (course.id !== '1') alert("추후 업데이트 예정입니다");
+            }}
+            className="overflow-hidden bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 md:hover:scale-[1.02] group"
         >
             <div className="h-44 sm:h-35">
+                {/* <img
+                    src={`https://cobbak-140457419.imgix.net/${course.imageUrl.split("/")[3]}?w=798&h=280&auto=format`}
+                    className="rounded-t-xl w-full object-cover h-44 sm:h-35"
+                    alt={course.title}
+                /> */}
+
                 <img
                     src={course.imageUrl}
                     className="rounded-t-xl w-full object-cover h-44 sm:h-35"

@@ -68,6 +68,11 @@ export default function LNB({
                                 key={item.slug}
                                 className={`shrink-0 whitespace-nowrap md:w-full h-9 md:h-10 flex items-center gap-2.5 px-2.5 text-xs font-medium rounded-md cursor-pointer transition-colors ${isActive ? "bg-primary hover:bg-primary/90" : "bg-transparent text-secondary hover:bg-[#2a2a35]"}`}
                                 onClick={() => {
+                                    if (item.slug !== 'all' && item.slug !== 'frontend') {
+                                        alert("추후 업데이트 예정입니다");
+                                        return;
+                                    }
+
                                     router.push(
                                         item.slug === "all"
                                             ? "/"
