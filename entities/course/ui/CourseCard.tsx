@@ -4,6 +4,9 @@ import { CourseWithRelations } from "@/shared/types";
 import { Play } from "lucide-react";
 import Link from "next/link";
 
+const AVAILABLE_COURSE_IDS = ["1", "2"] as const;
+type AvailableCourseId = (typeof AVAILABLE_COURSE_IDS)[number];
+
 export default function CourseCard({
     course,
 }: {
@@ -11,9 +14,14 @@ export default function CourseCard({
 }) {
     return (
         <Link
-            href={`${course.id === '1' ? `/course/${course.id}` : '/'}`}
+            href={`${AVAILABLE_COURSE_IDS.includes(course.id as AvailableCourseId) ? `/course/${course.id}` : "/"}`}
             onClick={() => {
-                if (course.id !== '1') alert("추후 업데이트 예정입니다");
+                if (
+                    !AVAILABLE_COURSE_IDS.includes(
+                        course.id as AvailableCourseId,
+                    )
+                )
+                    alert("추후 업데이트 예정입니다");
             }}
             className="overflow-hidden bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 md:hover:scale-[1.02] group"
         >
