@@ -4,7 +4,7 @@ import { CourseWithRelations } from "@/shared/types";
 import { Play } from "lucide-react";
 import Link from "next/link";
 
-const AVAILABLE_COURSE_IDS = ["1", "2"] as const;
+const AVAILABLE_COURSE_IDS = ["1", "2", "3"] as const;
 type AvailableCourseId = (typeof AVAILABLE_COURSE_IDS)[number];
 
 export default function CourseCard({
