@@ -12,6 +12,7 @@ export default function CourseCard({
 }: {
     course: CourseWithRelations;
 }) {
+    console.log("img:::", course.imageUrl.split("/")[3]);
     return (
         <Link
             href={`${AVAILABLE_COURSE_IDS.includes(course.id as AvailableCourseId) ? `/course/${course.id}` : "/"}`}
@@ -26,17 +27,18 @@ export default function CourseCard({
             className="overflow-hidden bg-[#1A1A20]/50 rounded-xl cursor-pointer transition-all duration-300 md:hover:scale-[1.02] group"
         >
             <div className="h-44 sm:h-35">
-                {/* <img
+                <img
                     src={`https://cobbak-140457419.imgix.net/${course.imageUrl.split("/")[3]}?w=798&h=280&auto=format`}
                     className="rounded-t-xl w-full object-cover h-44 sm:h-35"
                     alt={course.title}
-                /> */}
+                    fetchPriority="high"
+                />
 
-                <img
+                {/* <img
                     src={course.imageUrl}
                     className="rounded-t-xl w-full object-cover h-44 sm:h-35"
                     alt={course.title}
-                />
+                /> */}
 
                 <div className="absolute top-0 left-0 hidden md:group-hover:flex rounded-t-xl w-full h-44 sm:h-35 bg-black/40 justify-center items-center">
                     <button className="bg-primary text-black flex items-center justify-center gap-2 px-3 py-2 rounded-md cursor-pointer text-sm">
